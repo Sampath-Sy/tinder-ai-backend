@@ -42,8 +42,8 @@ public class TinderAiBackendApplication implements CommandLineRunner {
 		);
         profileRepository.save(profile1);
         Profile profile2 = new Profile(
-                "1",
-                "sampath",
+                "2",
+                "SreeKanth",
                 "sy",
                 24,
                 "Asian",
