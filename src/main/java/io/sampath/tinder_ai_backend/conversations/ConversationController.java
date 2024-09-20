@@ -4,12 +4,7 @@ import io.sampath.tinder_ai_backend.profiles.ProfileRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-
-import java.util.UUID;
 
 @RestController
 public class ConversationController {
@@ -22,18 +17,7 @@ public class ConversationController {
         this.profileRepository = profileRepository;
     }
 
-    @PostMapping("/conversations")
-    public Conversation createNewConversation(@RequestBody CreateConversationRequest request) {
-        profileRepository.findById(request.profileId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "unable to find the profile"));
-        Conversation conversation = new Conversation(
-                UUID.randomUUID().toString(),
-                request.profileId,
-                new ArrayList<>()
-        );
-        conversationRepository.save(conversation);
-        return conversation;
-    }
+
     @GetMapping("/conversations/{conversationId}")
     public Conversation getConversationById(@PathVariable String conversationId) {
         return conversationRepository.findById(conversationId)
@@ -46,7 +30,7 @@ public class ConversationController {
     public Conversation addMessageToConversation(
             @PathVariable String conversationId,
             @RequestBody ChatMessage message) {
-       Conversation conversation= conversationRepository.findById(conversationId)
+        Conversation conversation = conversationRepository.findById(conversationId)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
                         "unable to find the conversation Id"));
@@ -61,8 +45,5 @@ public class ConversationController {
         conversationRepository.save(conversation);
         return conversation;
 
-    }
-
-    public record CreateConversationRequest(String profileId) {
     }
 }
