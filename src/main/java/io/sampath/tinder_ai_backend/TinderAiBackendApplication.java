@@ -16,6 +16,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.ai.openai.OpenAiChatModel;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,26 +25,25 @@ public class TinderAiBackendApplication implements CommandLineRunner {
     @Autowired
     private ProfileRepository profileRepository;
     @Autowired
-    private ProfileCreationService profileCreationService;
-    @Autowired
+
     private ConversationRepository conversationRepository;
     @Autowired
     private MatchRepository matchRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(TinderAiBackendApplication.class, args);
 
     }
+
     @Autowired
     private OpenAiChatModel chatModel;
 
     public void run(String... args) {
-//        Prompt prompt=new Prompt("who is Virat Kohli?");
-//        ChatResponse response=chatModel.call(prompt);
-//        System.out.println(response.getResult().getOutput());
-          clearAllData();
-          profileCreationService.saveProfilesToDB();
+        clearAllData();
+        profileCreationService.saveProfilesToDB();
 
     }
+
     private void clearAllData() {
         profileRepository.deleteAll();
         conversationRepository.deleteAll();
