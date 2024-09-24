@@ -3,6 +3,7 @@ package io.sampath.tinder_ai_backend;
 import io.sampath.tinder_ai_backend.conversations.ChatMessage;
 import io.sampath.tinder_ai_backend.conversations.Conversation;
 import io.sampath.tinder_ai_backend.conversations.ConversationRepository;
+import io.sampath.tinder_ai_backend.matches.MatchRepository;
 import io.sampath.tinder_ai_backend.profiles.Gender;
 import io.sampath.tinder_ai_backend.profiles.Profile;
 import io.sampath.tinder_ai_backend.profiles.ProfileCreationService;
@@ -26,6 +27,8 @@ public class TinderAiBackendApplication implements CommandLineRunner {
     private ProfileCreationService profileCreationService;
     @Autowired
     private ConversationRepository conversationRepository;
+    @Autowired
+    private MatchRepository matchRepository;
     public static void main(String[] args) {
         SpringApplication.run(TinderAiBackendApplication.class, args);
 
@@ -37,8 +40,14 @@ public class TinderAiBackendApplication implements CommandLineRunner {
 //        Prompt prompt=new Prompt("who is Virat Kohli?");
 //        ChatResponse response=chatModel.call(prompt);
 //        System.out.println(response.getResult().getOutput());
+          clearAllData();
           profileCreationService.saveProfilesToDB();
 
+    }
+    private void clearAllData() {
+        profileRepository.deleteAll();
+        conversationRepository.deleteAll();
+        matchRepository.deleteAll();
     }
 
 }

@@ -6,10 +6,7 @@ import io.sampath.tinder_ai_backend.conversations.ConversationRepository;
 import io.sampath.tinder_ai_backend.profiles.Profile;
 import io.sampath.tinder_ai_backend.profiles.ProfileRepository;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -32,8 +29,8 @@ public class MatchController {
 
     public record createMatchRequest(String profileId) {
     }
-
-    @PostMapping("/conversations")
+    @CrossOrigin(origins = "*")
+    @PostMapping("/matches")
     public Match createNewConversation(@RequestBody createMatchRequest request) {
         Profile profile = profileRepository.findById(request.profileId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "unable to find the profile"));
@@ -52,7 +49,7 @@ public class MatchController {
         return match;
 
     }
-
+    @CrossOrigin(origins = "*")
     @GetMapping("/matches")
     public List<Match> getAllMatches() {
         return matchRepository.findAll();
